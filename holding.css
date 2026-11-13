@@ -1,0 +1,38 @@
+@font-face{font-family:"Jost";src:url("/fonts/jost-latin.woff2") format("woff2");font-weight:300 700;font-display:block}
+@font-face{font-family:"Noto Sans Tifinagh";src:url("/fonts/tifinagh.woff2") format("woff2");font-weight:400;font-display:block;unicode-range:U+2D30-2D7F}
+:root{--ink:#1B2420;--soft:#5A665F;--ground:#F2F1EA;--cedar:#2E6B45;--earth:#9A5A22;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--ink:#F2F1EA;--soft:#A3ABA4;--ground:#141B18;--cedar:#7CC08F;--earth:#D9A066;color-scheme:dark}}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+body{background:var(--ground);color:var(--ink);font:400 1rem/1.5 "Jost",Futura,"Century Gothic",system-ui,sans-serif;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+/* a very soft light behind the sign */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 60% 45% at 50% 44%,color-mix(in srgb,var(--cedar) 9%,transparent),transparent 70%)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+canvas{position:fixed;inset:0;display:block;cursor:crosshair;touch-action:none}
+
+/* Without JavaScript: the still lockup in the centre */
+.still{position:fixed;inset:0;display:grid;place-items:center;padding:16px}
+.still svg{width:min(78vw,420px);height:auto}
+.still .c{stroke:var(--cedar)}.still .i{fill:var(--ink)}
+.live .still{display:none}
+
+.hint{position:fixed;left:0;right:0;top:calc(50% + min(28vh,230px));text-align:center;font-size:.78rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--soft);opacity:0;pointer-events:none;transition:opacity 1.2s ease}
+.live .hint{animation:hintIn 1.4s ease 5.5s forwards}
+.hint.gone{opacity:0!important;animation:none}
+@keyframes hintIn{to{opacity:.85}}
+
+.foot{position:fixed;left:0;right:0;bottom:0;padding:0 16px calc(18px + env(safe-area-inset-bottom));text-align:center;
+  opacity:0;animation:up 1.2s ease 2.6s forwards}
+.desc{font-size:clamp(.92rem,1.6vw,1.05rem);font-weight:500;letter-spacing:.01em}
+.desc .dot{margin:0 .55em;color:var(--earth)}
+.mail{margin-top:.35em;font-size:.86rem}
+.mail a{color:var(--soft);text-decoration:none;border-bottom:1px solid transparent;transition:color .2s,border-color .2s;user-select:text;-webkit-user-select:text}
+.mail a:hover{color:var(--cedar);border-bottom-color:currentColor}
+.mail a:focus-visible{outline:2px solid var(--cedar);outline-offset:4px;border-radius:2px}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (max-width:480px){.desc .dot{display:block;height:0;overflow:hidden}}
+@media (max-height:420px){.desc{display:none}}
+@media (prefers-reduced-motion:reduce){.foot{animation:none;opacity:1}.live .hint{display:none}}
